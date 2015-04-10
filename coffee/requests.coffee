@@ -32,7 +32,7 @@ flush = ->
   # Dedup requests, favoring the later request
   # TODO: Throw out PUT/POST/DELETE requests after too much time?
   for request in held
-    # Break cache breaking
+# Break cache breaking
     url = request.url.replace /(\?|&)_=[0-9]+/, (match, char) ->
       if char is '?' then char else ''
 
@@ -56,9 +56,18 @@ setTimeout ->
       waitingOnConfirm = false
 
     Offline.onXHR (request) ->
-      {xhr, async} = request
+      {xhr, async, url} = request
 
       return if xhr.offline is false
+
+      requestFilters = Offline.getOption('requestFilters')
+      extension = url.split('.').pop().split('?')[0]
+
+      if extension in requestFilters
+        console.log('block ', url)
+        return;
+
+      console.log('authorize', url)
 
       hold = -> holdRequest request
 

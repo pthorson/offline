@@ -1,5 +1,5 @@
 (function() {
-  var Offline, checkXHR, defaultOptions, extendNative, grab, handlers, init;
+  var Offline, checkXHR, defaultOptions, extendNative, grab, handlers, init, typeIsArray;
 
   extendNative = function(to, from) {
     var e, key, results, val;
@@ -17,6 +17,10 @@
       }
     }
     return results;
+  };
+
+  typeIsArray = Array.isArray || function(value) {
+    return {}.toString.call(value) === '[object Array]';
   };
 
   Offline = {};
@@ -40,7 +44,8 @@
     },
     checkOnLoad: false,
     interceptRequests: true,
-    reconnect: true
+    reconnect: true,
+    requestFilters: []
   };
 
   grab = function(obj, key) {
@@ -50,7 +55,7 @@
     for (i = j = 0, len = parts.length; j < len; i = ++j) {
       part = parts[i];
       cur = cur[part];
-      if (typeof cur !== 'object') {
+      if (typeof cur !== 'object' || typeIsArray(cur)) {
         break;
       }
     }

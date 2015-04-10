@@ -12,6 +12,8 @@ extendNative = (to, from) ->
         to[key] = val
     catch e
 
+typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
+
 Offline = {}
 
 Offline.options = if window.Offline then window.Offline.options or {} else {}
@@ -36,12 +38,14 @@ defaultOptions =
 
   reconnect: true
 
+  requestFilters: []
+
 grab = (obj, key) ->
   cur = obj
   parts = key.split('.')
   for part, i in parts
     cur = cur[part]
-    break if typeof cur isnt 'object'
+    break if (typeof cur isnt 'object' || typeIsArray cur)
 
   if i is parts.length - 1
     cur

@@ -1,5 +1,6 @@
 (function() {
-  var clear, flush, held, holdRequest, makeRequest, waitingOnConfirm;
+  var clear, flush, held, holdRequest, makeRequest, waitingOnConfirm,
+    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   if (!window.Offline) {
     throw new Error("Requests module brought in without offline.js");
@@ -72,11 +73,18 @@
         return waitingOnConfirm = false;
       });
       Offline.onXHR(function(request) {
-        var _onreadystatechange, _send, async, hold, xhr;
-        xhr = request.xhr, async = request.async;
+        var _onreadystatechange, _send, async, extension, hold, requestFilters, url, xhr;
+        xhr = request.xhr, async = request.async, url = request.url;
         if (xhr.offline === false) {
           return;
         }
+        requestFilters = Offline.getOption('requestFilters');
+        extension = url.split('.').pop().split('?')[0];
+        if (indexOf.call(requestFilters, extension) >= 0) {
+          console.log('block ', url);
+          return;
+        }
+        console.log('authorize', url);
         hold = function() {
           return holdRequest(request);
         };

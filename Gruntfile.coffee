@@ -26,7 +26,9 @@ module.exports = (grunt) ->
     uglify:
       options:
         banner: "/*! <%= pkg.name %> <%= pkg.version %> */\n"
-        sourceMap: true
+        sourceMap: false
+        beautify: true
+        mangle: false
 
       dist:
         src: ['js/*.js', '!js/snake.js']
