@@ -12,6 +12,8 @@ module.exports = (grunt) ->
         src: ['coffee/*.coffee']
         dest: 'js/'
         ext: '.js'
+        options:
+          sourceMap: true
 
     watch:
       options:
@@ -24,9 +26,10 @@ module.exports = (grunt) ->
     uglify:
       options:
         banner: "/*! <%= pkg.name %> <%= pkg.version %> */\n"
+        sourceMap: true
 
       dist:
-        src: ['js/*', '!js/snake.js']
+        src: ['js/*.js', '!js/snake.js']
         dest: 'offline.min.js'
 
     compass:

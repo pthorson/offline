@@ -305,3 +305,5 @@
   window.Offline = Offline;
 
 }).call(this);
+
+//# sourceMappingURL=offline.js.map

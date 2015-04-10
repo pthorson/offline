@@ -96,3 +96,5 @@
   }, 0);
 
 }).call(this);
+
+//# sourceMappingURL=snake.js.map

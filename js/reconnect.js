@@ -83,3 +83,5 @@
   Offline.on('up', up);
 
 }).call(this);
+
+//# sourceMappingURL=reconnect.js.map
