@@ -64,10 +64,7 @@ setTimeout ->
       extension = url.split('.').pop().split('?')[0]
 
       if extension in requestFilters
-        console.log('block ', url)
         return;
-
-      console.log('authorize', url)
 
       hold = -> holdRequest request
 
