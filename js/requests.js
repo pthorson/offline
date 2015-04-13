@@ -81,10 +81,8 @@
         requestFilters = Offline.getOption('requestFilters');
         extension = url.split('.').pop().split('?')[0];
         if (indexOf.call(requestFilters, extension) >= 0) {
-          console.log('block ', url);
           return;
         }
-        console.log('authorize', url);
         hold = function() {
           return holdRequest(request);
         };
